@@ -7,6 +7,7 @@ const express_1 = __importDefault(require("express"));
 const mysql_1 = require("./mysql");
 const app = (0, express_1.default)();
 app.use(express_1.default.json());
+const port = process.env.PORT || 3000;
 app.get('/', (req, res) => {
     res.send("Bem vindo à aplicação!");
 });
@@ -33,6 +34,6 @@ app.get('/medium/show', (req, res) => {
         });
     });
 });
-app.listen(4000, () => {
-    console.info("Aplicação rodando em https://localhost:4000");
+app.listen(port, () => {
+    console.info(`Server is running on port ${port}`);
 });

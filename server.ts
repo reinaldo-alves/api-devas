@@ -3,6 +3,7 @@ import { pool } from './mysql';
 const app = express();
 
 app.use(express.json());
+const port = process.env.PORT || 3000;
 
 app.get('/', (req: any, res: any) => {
     res.send("Bem vindo à aplicação!");
@@ -43,6 +44,6 @@ app.get('/medium/show', (req: any, res: any) => {
 
 })
 
-app.listen(4000, () => {
-    console.info("Aplicação rodando em https://localhost:4000")
+app.listen(port, () => {
+    console.info(`Server is running on port ${port}`)
 })
