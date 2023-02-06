@@ -10,9 +10,6 @@ const port = process.env.PORT || 3000;
 app.get('/', (req, res) => {
     res.send("Bem vindo à aplicação!");
 });
-app.get('/outra', (req, res) => {
-    res.send("Bem vindo à aplicação de novo!");
-});
 // app.get('/medium/create', (req: any, res: any) => {
 //     const { idmed, name, med, sex } = req.body;
 //     pool.getConnection((err:any, con:any) => {
