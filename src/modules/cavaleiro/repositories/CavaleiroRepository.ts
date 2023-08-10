@@ -69,11 +69,24 @@ class CavaleiroRepository {
     }
 
     update(request: Request, response: Response) {
-        const { cavaleiro_id, nome, med } = request.body;
+        const { cavaleiro_id, ...updates } = request.body;
         pool.getConnection((err:any, connection:any) => {
+            const updateFields = [] as Array<string>;
+            const params = [] as Array<string>;
+            for (const prop in updates) {
+                if (updates[prop] !== undefined) {
+                    updateFields.push(`${prop} = ?`);
+                    params.push(updates[prop]);
+                }
+            }
+            if (updateFields.length === 0) {
+                return response.status(400).json({error: "Nenhum valor a ser atualizado"});
+            }
+            params.push(cavaleiro_id);
+            const updateQuery = `UPDATE cavaleiro SET ${updateFields.join(', ')} WHERE cavaleiro_id = ?`;
             connection.query(
-                'UPDATE cavaleiro SET nome = ?, med = ? WHERE cavaleiro_id = ?',
-                [nome, med, cavaleiro_id],
+                updateQuery,
+                params,
                 (error:any, result:any, fileds:any) => {
                     connection.release();
                     if (error) {

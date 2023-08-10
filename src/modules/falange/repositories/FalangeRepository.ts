@@ -35,11 +35,24 @@ class FalangeRepository {
     }
 
     update(request: Request, response: Response) {
-        const { falange_id, primeira, adjMin, adjNome } = request.body;
+        const { falange_id, ...updates } = request.body;
         pool.getConnection((err:any, connection:any) => {
+            const updateFields = [] as Array<string>;
+            const params = [] as Array<string>;
+            for (const prop in updates) {
+                if (updates[prop] !== undefined) {
+                    updateFields.push(`${prop} = ?`);
+                    params.push(updates[prop]);
+                }
+            }
+            if (updateFields.length === 0) {
+                return response.status(400).json({error: "Nenhum valor a ser atualizado"});
+            }
+            params.push(falange_id);
+            const updateQuery = `UPDATE falange SET ${updateFields.join(', ')} WHERE falange_id = ?`;
             connection.query(
-                'UPDATE falange SET primeira = ?, adjMin = ?, adjNome = ? WHERE falange_id = ?',
-                [primeira, adjMin, adjNome, falange_id],
+                updateQuery,
+                params,
                 (error:any, result:any, fileds:any) => {
                     connection.release();
                     if (error) {

@@ -69,11 +69,24 @@ class TemploRepository {
     }
 
     update(request: Request, response: Response) {
-        const { templo_id, cidade, estado, presidente } = request.body;
+        const { templo_id, ...updates } = request.body;
         pool.getConnection((err:any, connection:any) => {
+            const updateFields = [] as Array<string>;
+            const params = [] as Array<string>;
+            for (const prop in updates) {
+                if (updates[prop] !== undefined) {
+                    updateFields.push(`${prop} = ?`);
+                    params.push(updates[prop]);
+                }
+            }
+            if (updateFields.length === 0) {
+                return response.status(400).json({error: "Nenhum valor a ser atualizado"});
+            }
+            params.push(templo_id);
+            const updateQuery = `UPDATE templo SET ${updateFields.join(', ')} WHERE templo_id = ?`;
             connection.query(
-                'UPDATE templo SET cidade = ?, estado = ?, presidente = ? WHERE templo_id = ?',
-                [cidade, estado, presidente, templo_id],
+                updateQuery,
+                params,
                 (error:any, result:any, fileds:any) => {
                     connection.release();
                     if (error) {

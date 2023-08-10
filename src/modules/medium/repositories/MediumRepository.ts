@@ -3,11 +3,11 @@ import { pool } from '../../../mysql';
 
 class MediumRepository {
     create(request: Request, response: Response) {
-        const { nome, med, sex, foto, condicao, templo, dtNasc, rg, cpf, mae, pai, natur, naturUF, profissao, estCivil, conjuge, cep, endereco, endNumero, endCompl, endBairro, endCidade, endUF, telefone1, telefone2, email, dtIngresso, dtEmplac, dtIniciacao, dtElevacao, dtCenturia, dtSetimo, adjOrigem, temploOrigem, colete, classMest, falMest, povo, falMiss, adjDevas, turnoLeg, turnoTrab, ministro, cavaleiro, guia, cor, classif, dataClassif, princesa, pretovelho, caboclo, medico, nomeEmissao, ninfa, mestre, padrinho, madrinha, afilhado, comando, janata, lVermelha, presidente, vicePres, recepcao, devas, regente, trinoSol, dtTrinoSol, trinoSar, observ } = request.body;
+        const { nome, med, sex, foto, condicao, templo, dtNasc, rg, cpf, mae, pai, natur, naturUF, profissao, estCivil, conjuge, cep, endereco, endNumero, endCompl, endBairro, endCidade, endUF, telefone1, telefone2, email, dtIngresso, dtEmplac, dtIniciacao, dtElevacao, dtCenturia, dtSetimo, adjOrigem, temploOrigem, colete, classMest, falMest, povo, falMiss, adjDevas, turnoLeg, turnoTrab, ministro, cavaleiro, dtMinistro, guia, dtGuia, cor, estrela, classif, dtClassif, princesa, pretovelho, caboclo, medico, nomeEmissao, ninfa, mestre, padrinho, madrinha, afilhado, comando, janata, lVermelha, presidente, vicePres, recepcao, devas, regente, janda, trinoSol, dtTrinoSol, trinoSar, dtTrinoSar, herdeiro, filho, observ } = request.body;
         pool.getConnection((err:any, connection:any) => {
             connection.query(
-                'INSERT INTO medium (nome, med, sex, foto, condicao, templo, dtNasc, rg, cpf, mae, pai, natur, naturUF, profissao, estCivil, conjuge, cep, endereco, endNumero, endCompl, endBairro, endCidade, endUF, telefone1, telefone2, email, dtIngresso, dtEmplac, dtIniciacao, dtElevacao, dtCenturia, dtSetimo, adjOrigem, temploOrigem, colete, classMest, falMest, povo, falMiss, adjDevas, turnoLeg, turnoTrab, ministro, cavaleiro, guia, cor, classif, dataClassif, princesa, pretovelho, caboclo, medico, nomeEmissao, ninfa, mestre, padrinho, madrinha, afilhado, comando, janata, lVermelha, presidente, vicePres, recepcao, devas, regente, trinoSol, dtTrinoSol, trinoSar, observ) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)',
-                [nome, med, sex, foto, condicao, templo, dtNasc, rg, cpf, mae, pai, natur, naturUF, profissao, estCivil, conjuge, cep, endereco, endNumero, endCompl, endBairro, endCidade, endUF, telefone1, telefone2, email, dtIngresso, dtEmplac, dtIniciacao, dtElevacao, dtCenturia, dtSetimo, adjOrigem, temploOrigem, colete, classMest, falMest, povo, falMiss, adjDevas, turnoLeg, turnoTrab, ministro, cavaleiro, guia, cor, classif, dataClassif, princesa, pretovelho, caboclo, medico, nomeEmissao, ninfa, mestre, padrinho, madrinha, afilhado, comando, janata, lVermelha, presidente, vicePres, recepcao, devas, regente, trinoSol, dtTrinoSol, trinoSar, observ],
+                'INSERT INTO medium (nome, med, sex, foto, condicao, templo, dtNasc, rg, cpf, mae, pai, natur, naturUF, profissao, estCivil, conjuge, cep, endereco, endNumero, endCompl, endBairro, endCidade, endUF, telefone1, telefone2, email, dtIngresso, dtEmplac, dtIniciacao, dtElevacao, dtCenturia, dtSetimo, adjOrigem, temploOrigem, colete, classMest, falMest, povo, falMiss, adjDevas, turnoLeg, turnoTrab, ministro, cavaleiro, dtMinistro, guia, dtGuia, cor, estrela, classif, dtClassif, princesa, pretovelho, caboclo, medico, nomeEmissao, ninfa, mestre, padrinho, madrinha, afilhado, comando, janata, lVermelha, presidente, vicePres, recepcao, devas, regente, janda, trinoSol, dtTrinoSol, trinoSar, dtTrinoSar, herdeiro, filho, observ) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)',
+                [nome, med, sex, foto, condicao, templo, dtNasc, rg, cpf, mae, pai, natur, naturUF, profissao, estCivil, conjuge, cep, endereco, endNumero, endCompl, endBairro, endCidade, endUF, telefone1, telefone2, email, dtIngresso, dtEmplac, dtIniciacao, dtElevacao, dtCenturia, dtSetimo, adjOrigem, temploOrigem, colete, classMest, falMest, povo, falMiss, adjDevas, turnoLeg, turnoTrab, ministro, cavaleiro, dtMinistro, guia, dtGuia, cor, estrela, classif, dtClassif, princesa, pretovelho, caboclo, medico, nomeEmissao, ninfa, mestre, padrinho, madrinha, afilhado, comando, janata, lVermelha, presidente, vicePres, recepcao, devas, regente, janda, trinoSol, dtTrinoSol, trinoSar, dtTrinoSar, herdeiro, filho, observ],
                 (error:any, result:any, fileds:any) => {
                     connection.release();
                     if (error) {
@@ -69,11 +69,24 @@ class MediumRepository {
     }
 
     update(request: Request, response: Response) {
-        const { medium_id, nome, med, sex, foto, condicao, templo, dtNasc, rg, cpf, mae, pai, natur, naturUF, profissao, estCivil, conjuge, cep, endereco, endNumero, endCompl, endBairro, endCidade, endUF, telefone1, telefone2, email, dtIngresso, dtEmplac, dtIniciacao, dtElevacao, dtCenturia, dtSetimo, adjOrigem, temploOrigem, colete, classMest, falMest, povo, falMiss, adjDevas, turnoLeg, turnoTrab, ministro, cavaleiro, guia, cor, classif, dataClassif, princesa, pretovelho, caboclo, medico, nomeEmissao, ninfa, mestre, padrinho, madrinha, afilhado, comando, janata, lVermelha, presidente, vicePres, recepcao, devas, regente, trinoSol, dtTrinoSol, trinoSar, observ } = request.body;
+        const { medium_id, ...updates } = request.body;
         pool.getConnection((err:any, connection:any) => {
+            const updateFields = [] as Array<string>;
+            const params = [] as Array<string>;
+            for (const prop in updates) {
+                if (updates[prop] !== undefined) {
+                    updateFields.push(`${prop} = ?`);
+                    params.push(updates[prop]);
+                }
+            }
+            if (updateFields.length === 0) {
+                return response.status(400).json({error: "Nenhum valor a ser atualizado"});
+            }
+            params.push(medium_id);
+            const updateQuery = `UPDATE medium SET ${updateFields.join(', ')} WHERE medium_id = ?`;
             connection.query(
-                'UPDATE medium SET nome = ?, med = ?, sex = ?, foto = ?, condicao = ?, templo = ?, dtNasc = ?, rg = ?, cpf = ?, mae = ?, pai = ?, natur = ?, naturUF = ?, profissao = ?, estCivil = ?, conjuge = ?, cep = ?, endereco = ?, endNumero = ?, endCompl = ?, endBairro = ?, endCidade = ?, endUF = ?, telefone1 = ?, telefone2 = ?, email = ?, dtIngresso = ?, dtEmplac = ?, dtIniciacao = ?, dtElevacao = ?, dtCenturia = ?, dtSetimo = ?, adjOrigem = ?, temploOrigem = ?, colete = ?, classMest = ?, falMest = ?, povo = ?, falMiss = ?, adjDevas = ?, turnoLeg = ?, turnoTrab = ?, ministro = ?, cavaleiro = ?, guia = ?, cor = ?, classif = ?, dataClassif = ?, princesa = ?, pretovelho = ?, caboclo = ?, medico = ?, nomeEmissao = ?, ninfa = ?, mestre = ?, padrinho = ?, madrinha = ?, afilhado = ?, comando = ?, janata = ?, lVermelha = ?, presidente = ?, vicePres = ?, recepcao = ?, devas = ?, regente = ?, trinoSol = ?, dtTrinoSol = ?, trinoSar = ?, observ = ? WHERE medium_id = ?',
-                [nome, med, sex, foto, condicao, templo, dtNasc, rg, cpf, mae, pai, natur, naturUF, profissao, estCivil, conjuge, cep, endereco, endNumero, endCompl, endBairro, endCidade, endUF, telefone1, telefone2, email, dtIngresso, dtEmplac, dtIniciacao, dtElevacao, dtCenturia, dtSetimo, adjOrigem, temploOrigem, colete, classMest, falMest, povo, falMiss, adjDevas, turnoLeg, turnoTrab, ministro, cavaleiro, guia, cor, classif, dataClassif, princesa, pretovelho, caboclo, medico, nomeEmissao, ninfa, mestre, padrinho, madrinha, afilhado, comando, janata, lVermelha, presidente, vicePres, recepcao, devas, regente, trinoSol, dtTrinoSol, trinoSar, observ, medium_id],
+                updateQuery,
+                params,
                 (error:any, result:any, fileds:any) => {
                     connection.release();
                     if (error) {

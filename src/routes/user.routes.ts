@@ -30,7 +30,7 @@ userRoutes.put('/update', login, (request, response) => {
 })
 
 userRoutes.put('/change-password', login, (request, response) => {
-    userRepository.updatePassword(request, response)
+    userRepository.changePassword(request, response)
 })
 
 export { userRoutes }

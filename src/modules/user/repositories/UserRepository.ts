@@ -1,7 +1,7 @@
 import { Request, Response } from 'express';
 import { pool } from '../../../mysql';
 import { hash, compare } from 'bcrypt';
-import { sign } from 'jsonwebtoken';
+import { sign, verify } from 'jsonwebtoken';
 
 class UserRepository {
     create(request: Request, response: Response){
@@ -60,20 +60,34 @@ class UserRepository {
     }
 
     get(request: Request, response: Response) {
-        const { user_id } = request.query;
-        pool.getConnection((err:any, connection:any) => {
-            connection.query(
-                'SELECT * FROM user WHERE user_id = ?',
-                [user_id],
-                (error:any, result:any, fileds:any) => {
-                    connection.release();
-                    if (error) {
-                        return response.status(400).json({error: "Erro ao buscar usuário"})
+        const decode: any = request.headers.authorization? verify(request.headers.authorization, process.env.SECRET as string) : {id: '', name: '', iat: 0, exp: 0};
+        if(decode.id){
+            pool.getConnection((err:any, connection:any) => {
+                connection.query(
+                    'SELECT * FROM user WHERE user_id = ?',
+                    [decode.id],
+                    (error:any, result:any, fileds:any) => {
+                        connection.release();
+                        if (error) {
+                            return response.status(400).send({
+                                error: error,
+                                message: "Erro ao buscar dados do usuário",
+                                response: null
+                            })
+                        }
+                        return response.status(201).send({
+                            message: 'Usuário encontrado com sucesso!',
+                            user: {
+                                id: result[0].user_id,
+                                name: result[0].name,
+                                level: result[0].level,
+                                meduim_id: result[0].medium_id
+                            }
+                        })
                     }
-                    response.status(200).json({message: 'Usuário encontrado com sucesso!', user: result})
-                }
-            )
-        })
+                )
+            })
+        }
     }
 
     getAll(request: Request, response: Response) {
@@ -109,11 +123,24 @@ class UserRepository {
     }
 
     update(request: Request, response: Response) {
-        const { user_id, name, level } = request.body;
+        const { user_id, ...updates } = request.body;
         pool.getConnection((err:any, connection:any) => {
+            const updateFields = [] as Array<string>;
+            const params = [] as Array<string>;
+            for (const prop in updates) {
+                if (updates[prop] !== undefined) {
+                    updateFields.push(`${prop} = ?`);
+                    params.push(updates[prop]);
+                }
+            }
+            if (updateFields.length === 0) {
+                return response.status(400).json({error: "Nenhum valor a ser atualizado"});
+            }
+            params.push(user_id);
+            const updateQuery = `UPDATE user SET ${updateFields.join(', ')} WHERE user_id = ?`;
             connection.query(
-                'UPDATE user SET name = ?, level = ? WHERE user_id = ?',
-                [name, level, user_id],
+                updateQuery,
+                params,
                 (error:any, result:any, fileds:any) => {
                     connection.release();
                     if (error) {
@@ -125,7 +152,7 @@ class UserRepository {
         })
     }
 
-    updatePassword(request: Request, response: Response) {
+    changePassword(request: Request, response: Response) {
         const { user_id, password } = request.body;
         pool.getConnection((err:any, connection:any) => {
             hash(password, 10, (err, hash) => {

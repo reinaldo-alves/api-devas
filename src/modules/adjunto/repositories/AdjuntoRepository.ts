@@ -69,11 +69,24 @@ class AdjuntoRepository {
     }
 
     update(request: Request, response: Response) {
-        const { adjunto_id, nome, ministro, classif, esperanca } = request.body;
+        const { adjunto_id, ...updates } = request.body;
         pool.getConnection((err:any, connection:any) => {
+            const updateFields = [] as Array<string>;
+            const params = [] as Array<string>;
+            for (const prop in updates) {
+                if (updates[prop] !== undefined) {
+                    updateFields.push(`${prop} = ?`);
+                    params.push(updates[prop]);
+                }
+            }
+            if (updateFields.length === 0) {
+                return response.status(400).json({error: "Nenhum valor a ser atualizado"});
+            }
+            params.push(adjunto_id);
+            const updateQuery = `UPDATE adjunto SET ${updateFields.join(', ')} WHERE adjunto_id = ?`;
             connection.query(
-                'UPDATE adjunto SET nome = ?, ministro = ?, classif = ?, esperanca = ? WHERE adjunto_id = ?',
-                [nome, ministro, classif, esperanca, adjunto_id],
+                updateQuery,
+                params,
                 (error:any, result:any, fileds:any) => {
                     connection.release();
                     if (error) {
