@@ -153,51 +153,24 @@ class UserRepository {
     }
 
     changePassword(request: Request, response: Response) {
-        const { user_id, oldPassword, newPassword } = request.body;
+        const { user_id, password } = request.body;
         pool.getConnection((err:any, connection:any) => {
-            connection.query(
-                'SELECT password FROM user WHERE user_id = ?',
-                [user_id],
-                (error: any, result: any) => {
-                    if(error){
-                        connection.release()
-                        return response.status(400).json({message: "Erro ao buscar senha atual"})
-                    } 
-                    if(result.length === 0){
-                        connection.release()
-                        return response.status(401).json({message: "Usuário não encontrado"})
-                    } 
-                    const hashedPassword = result[0].password;
-                    compare(oldPassword, hashedPassword, (compareError, compareResult) => {
-                        if(compareError) {
-                            connection.release();
-                            return response.status(500).json(compareError);
-                        }
-                        if(!compareResult) {
-                            connection.release();
-                            return response.status(402).json({message: "Senha incorreta"});
-                        }
-                        hash(newPassword, 10, (err, hash) => {
-                            if(err) {
-                                return response.status(500).json(err)
-                            }
-                            connection.query(
-                                'UPDATE user SET password = ? WHERE user_id = ?',
-                                [hash, user_id],
-                                (updateError:any, updateResult:any, fileds:any) => {
-                                    connection.release();
-                                    if (updateError) {
-                                        return response.status(403).json({message: "Erro ao alterar senha"})
-                                    }
-                                    response.status(200).json({message: 'Senha alterada com sucesso!'})
-                                }
-                            )
-                        })  
-
-                    })
+            hash(password, 10, (err, hash) => {
+                if(err) {
+                    return response.status(500).json(err)
                 }
-            )
-              
+                connection.query(
+                    'UPDATE user SET password = ? WHERE user_id = ?',
+                    [hash, user_id],
+                    (error:any, result:any, fileds:any) => {
+                        connection.release();
+                        if (error) {
+                            return response.status(400).json({error: "Erro ao alterar senha"})
+                        }
+                        response.status(200).json({message: 'Senha alterada com sucesso!'})
+                    }
+                )
+            })  
         })
     }
 
