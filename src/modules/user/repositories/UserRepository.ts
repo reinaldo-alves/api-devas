@@ -78,8 +78,9 @@ class UserRepository {
                         return response.status(201).send({
                             message: 'Usuário encontrado com sucesso!',
                             user: {
-                                id: result[0].user_id,
+                                user_id: result[0].user_id,
                                 name: result[0].name,
+                                password: result[0].password,
                                 level: result[0].level,
                                 meduim_id: result[0].medium_id
                             }
