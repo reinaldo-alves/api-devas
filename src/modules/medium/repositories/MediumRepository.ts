@@ -3,11 +3,11 @@ import { pool } from '../../../mysql';
 
 class MediumRepository {
     create(request: Request, response: Response) {
-        const { nome, med, sex, foto, condicao, templo, dtNasc, rg, cpf, mae, pai, natur, naturUF, profissao, estCivil, conjuge, cep, endereco, endNumero, endCompl, endBairro, endCidade, endUF, telefone1, telefone2, email, dtIngresso, dtEmplac, dtIniciacao, dtElevacao, dtCenturia, dtSetimo, adjOrigem, temploOrigem, colete, classMest, falMest, povo, falMiss, adjDevas, turnoLeg, turnoTrab, ministro, cavaleiro, dtMinistro, guia, dtGuia, cor, estrela, classif, dtClassif, princesa, pretovelho, caboclo, medico, nomeEmissao, ninfa, mestre, padrinho, madrinha, afilhado, comando, janata, lVermelha, presidente, vicePres, recepcao, devas, regente, janda, trinoSol, dtTrinoSol, trinoSar, dtTrinoSar, herdeiro, filho, observ } = request.body;
+        const { nome, med, sex, foto, condicao, templo, dtNasc, rg, cpf, mae, pai, natur, naturUF, profissao, estCivil, conjuge, cep, endereco, endNumero, endCompl, endBairro, endCidade, endUF, telefone1, telefone2, email, dtIngresso, dtEmplac, dtIniciacao, dtElevacao, dtCenturia, dtSetimo, adjOrigem, temploOrigem, colete, classMest, falMest, povo, falMiss, adjDevas, turnoLeg, turnoTrab, ministro, cavaleiro, dtMinistro, guia, dtGuia, cor, estrela, classif, dtClassif, princesa, pretovelho, caboclo, medico, nomeEmissao, ninfa, mestre, padrinho, madrinha, afilhado, comando, presidente, recepcao, devas, regente, janda, trinoSol, dtTrinoSol, trinoSar, dtTrinoSar, herdeiro, filho, observ } = request.body;
         pool.getConnection((err:any, connection:any) => {
             connection.query(
-                'INSERT INTO medium (nome, med, sex, foto, condicao, templo, dtNasc, rg, cpf, mae, pai, natur, naturUF, profissao, estCivil, conjuge, cep, endereco, endNumero, endCompl, endBairro, endCidade, endUF, telefone1, telefone2, email, dtIngresso, dtEmplac, dtIniciacao, dtElevacao, dtCenturia, dtSetimo, adjOrigem, temploOrigem, colete, classMest, falMest, povo, falMiss, adjDevas, turnoLeg, turnoTrab, ministro, cavaleiro, dtMinistro, guia, dtGuia, cor, estrela, classif, dtClassif, princesa, pretovelho, caboclo, medico, nomeEmissao, ninfa, mestre, padrinho, madrinha, afilhado, comando, janata, lVermelha, presidente, vicePres, recepcao, devas, regente, janda, trinoSol, dtTrinoSol, trinoSar, dtTrinoSar, herdeiro, filho, observ) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)',
-                [nome, med, sex, foto, condicao, templo, dtNasc, rg, cpf, mae, pai, natur, naturUF, profissao, estCivil, conjuge, cep, endereco, endNumero, endCompl, endBairro, endCidade, endUF, telefone1, telefone2, email, dtIngresso, dtEmplac, dtIniciacao, dtElevacao, dtCenturia, dtSetimo, adjOrigem, temploOrigem, colete, classMest, falMest, povo, falMiss, adjDevas, turnoLeg, turnoTrab, ministro, cavaleiro, dtMinistro, guia, dtGuia, cor, estrela, classif, dtClassif, princesa, pretovelho, caboclo, medico, nomeEmissao, ninfa, mestre, padrinho, madrinha, afilhado, comando, janata, lVermelha, presidente, vicePres, recepcao, devas, regente, janda, trinoSol, dtTrinoSol, trinoSar, dtTrinoSar, herdeiro, filho, observ],
+                'INSERT INTO medium (nome, med, sex, foto, condicao, templo, dtNasc, rg, cpf, mae, pai, natur, naturUF, profissao, estCivil, conjuge, cep, endereco, endNumero, endCompl, endBairro, endCidade, endUF, telefone1, telefone2, email, dtIngresso, dtEmplac, dtIniciacao, dtElevacao, dtCenturia, dtSetimo, adjOrigem, temploOrigem, colete, classMest, falMest, povo, falMiss, adjDevas, turnoLeg, turnoTrab, ministro, cavaleiro, dtMinistro, guia, dtGuia, cor, estrela, classif, dtClassif, princesa, pretovelho, caboclo, medico, nomeEmissao, ninfa, mestre, padrinho, madrinha, afilhado, comando, presidente, recepcao, devas, regente, janda, trinoSol, dtTrinoSol, trinoSar, dtTrinoSar, herdeiro, filho, observ) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)',
+                [nome, med, sex, foto, condicao, templo, dtNasc, rg, cpf, mae, pai, natur, naturUF, profissao, estCivil, conjuge, cep, endereco, endNumero, endCompl, endBairro, endCidade, endUF, telefone1, telefone2, email, dtIngresso, dtEmplac, dtIniciacao, dtElevacao, dtCenturia, dtSetimo, adjOrigem, temploOrigem, colete, classMest, falMest, povo, falMiss, adjDevas, turnoLeg, turnoTrab, ministro, cavaleiro, dtMinistro, guia, dtGuia, cor, estrela, classif, dtClassif, princesa, pretovelho, caboclo, medico, nomeEmissao, ninfa, mestre, padrinho, madrinha, afilhado, comando, presidente, recepcao, devas, regente, janda, trinoSol, dtTrinoSol, trinoSar, dtTrinoSar, herdeiro, filho, observ],
                 (error:any, result:any, fileds:any) => {
                     connection.release();
                     if (error) {
@@ -93,6 +93,26 @@ class MediumRepository {
                         return response.status(400).json({error: "Erro ao editar médium"})
                     }
                     response.status(200).json({message: 'Médium editado com sucesso!'})
+                }
+            )
+        })
+    }
+
+    uploadImage(request: any, response: Response) {
+        const { medium_id } = request.query;
+        if(!request.file){
+            return response.status(400).json({message: "Erro: Imagem inválida"})
+        } 
+        pool.getConnection((err: any, connection: any) => {
+            connection.query(
+                'UPDATE medium SET foto = ? WHERE medium_id = ?',
+                [request.file.filename, medium_id],
+                (error:any, result:any, fileds:any) => {
+                    connection.release();
+                    if (error) {
+                        return response.status(400).json({error: "Erro ao atribuir foto do médium"})
+                    }
+                    response.status(200).json({message: 'Foto do médium carregada e atribuída com sucesso', filename: request.file.filename})
                 }
             )
         })
