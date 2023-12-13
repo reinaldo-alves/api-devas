@@ -1,0 +1,9 @@
+VERSÃO 1.0.0
+- Versão de Lançamento
+- Rotas para criar, editar, excluir, exibir e exibir todos implementada para as tabelas templos, adjuntos, ministros, cavaleiros, guias missionárias e usuários
+- Integração com banco de dados
+- Rotas seguras implementadas
+- Upload de imagem
+
+VERSÃO 1.1.0
+- Rotas para registros de consagrações (adicionar e remover médium, passar para próxima consagração, consultar todos e por consagração)

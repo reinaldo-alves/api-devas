@@ -8,6 +8,7 @@ import { guiaRoutes } from './routes/guia.routes';
 import { cavaleiroRoutes } from './routes/cavaleiro.routes';
 import { adjuntoRoutes } from './routes/adjunto.routes';
 import { temploRoutes } from './routes/templo.routes';
+import { consagracaoRoutes } from './routes/consagracao.routes';
 
 config();
 const app = express();
@@ -35,6 +36,7 @@ app.use('/guia', guiaRoutes);
 app.use('/cavaleiro', cavaleiroRoutes);
 app.use('/adjunto', adjuntoRoutes);
 app.use('/templo', temploRoutes);
+app.use('/consagracao', consagracaoRoutes);
 
 const port = process.env.PORT || 4000;
 
