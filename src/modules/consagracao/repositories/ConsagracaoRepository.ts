@@ -75,6 +75,24 @@ class ConsagracaoRepository {
         })
     }
 
+    updateTermo(request: Request, response: Response) {
+        const { consagracao_id, termo } = request.body;
+        const termoNumber = termo ? 1 : 0;
+        pool.getConnection((err:any, connection:any) => {
+            connection.query(
+                'UPDATE consagracao SET termo = ? WHERE consagracao_id = ?',
+                [termoNumber, consagracao_id],
+                (error:any, result:any, fileds:any) => {
+                    connection.release();
+                    if (error) {
+                        return response.status(400).json({error: "Erro ao editar status do termo"})
+                    }
+                    response.status(200).json({message: 'Status do termo editado com sucesso!'})
+                }
+            )
+        })
+    }
+
     nextCons(request: Request, response: Response) {
         const { cons } = request.body;
         const newCons = cons < 3 ? Number(cons) + 1 : Number(cons);

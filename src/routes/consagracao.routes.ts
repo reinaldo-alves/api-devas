@@ -21,6 +21,10 @@ consagracaoRoutes.delete('/delete', login, (request, response) => {
     consagracaoRepository.delete(request, response)
 })
 
+consagracaoRoutes.put('/update-termo', login, (request, response) => {
+    consagracaoRepository.updateTermo(request, response)
+})
+
 consagracaoRoutes.put('/next-cons', login, (request, response) => {
     consagracaoRepository.nextCons(request, response)
 })
