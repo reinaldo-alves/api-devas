@@ -94,18 +94,17 @@ class ConsagracaoRepository {
     }
 
     nextCons(request: Request, response: Response) {
-        const { cons } = request.body;
-        const newCons = cons < 3 ? Number(cons) + 1 : Number(cons);
+        const { consagracao_id, consagracao } = request.body;
         pool.getConnection((err:any, connection:any) => {
             connection.query(
-                'UPDATE consagracao SET consagracao = ? WHERE consagracao = ?',
-                [newCons, cons],
+                'UPDATE consagracao SET consagracao = ? WHERE consagracao_id = ?',
+                [consagracao, consagracao_id],
                 (error:any, result:any, fileds:any) => {
                     connection.release();
                     if (error) {
-                        return response.status(400).json({error: "Erro ao adicionar médiuns na nova consagração"})
+                        return response.status(400).json({error: "Erro ao adicionar o médiums na nova consagração"})
                     }
-                    response.status(200).json({message: 'Médiuns adicionados com sucesso à nova consagração!'})
+                    response.status(200).json({message: 'Médium adicionado com sucesso à nova consagração!'})
                 }
             )
         })
