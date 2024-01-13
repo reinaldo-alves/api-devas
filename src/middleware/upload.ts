@@ -7,7 +7,9 @@ module.exports = (multer({
             callback(null, './public/upload/medium')
         },
         filename: (request: any, file: any, callback: any) => {
-            callback(null, Date.now().toString() + path.extname(file.originalname))
+            const { medium_id } = request.query;
+            const filename = `Foto_${medium_id.toString().padStart(5, '0')}.jpg` 
+            callback(null, filename)
         }
     }),
     fileFilter: (request: any, file: any, callback: any) => {
@@ -16,5 +18,6 @@ module.exports = (multer({
             return callback(null, true)
         }
         return callback(null, false)
-    }
+    },
+    overwrite: true
 }))

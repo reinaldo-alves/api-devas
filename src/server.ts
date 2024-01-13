@@ -9,6 +9,7 @@ import { cavaleiroRoutes } from './routes/cavaleiro.routes';
 import { adjuntoRoutes } from './routes/adjunto.routes';
 import { temploRoutes } from './routes/templo.routes';
 import { consagracaoRoutes } from './routes/consagracao.routes';
+import { backupRoutes } from './routes/backup.routes';
 
 config();
 const app = express();
@@ -37,6 +38,7 @@ app.use('/cavaleiro', cavaleiroRoutes);
 app.use('/adjunto', adjuntoRoutes);
 app.use('/templo', temploRoutes);
 app.use('/consagracao', consagracaoRoutes);
+app.use('/backup', backupRoutes);
 
 const port = process.env.PORT || 4000;
 
