@@ -1,5 +1,4 @@
 import { Request, Response } from 'express';
-import { pool } from '../../../mysql';
 import { exec, ExecException, spawn } from 'child_process';
 
 const formatTime = () => {

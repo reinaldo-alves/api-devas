@@ -5,19 +5,19 @@ import { sign, verify } from 'jsonwebtoken';
 
 class UserRepository {
     create(request: Request, response: Response){
-        const { name, password, level, medium_id } = request.body;
+        const { name, password, level, medium_id, sex } = request.body;
         pool.getConnection((err:any, connection:any) => {
             hash(password, 10, (err, hash) => {
                 if(err) {
                     return response.status(500).json(err)
                 }
                 connection.query(
-                    'INSERT INTO user (name, password, level, medium_id) VALUES (?,?,?,?)',
-                    [name, hash, level, medium_id],
+                    'INSERT INTO user (name, password, level, medium_id, sex) VALUES (?,?,?,?,?)',
+                    [name, hash, level, medium_id, sex],
                     (error:any, result:any, fileds:any) => {
                         connection.release();
                         if (error) {
-                            return response.status(400).json({error: "Erro na sua autenticação!"})
+                            return response.status(400).json({error: "Erro ao criar novo usuário!"})
                         }
                         response.status(200).json({message: 'Usuário adicionado com sucesso!'})
                     }
@@ -82,7 +82,8 @@ class UserRepository {
                                 name: result[0].name,
                                 password: result[0].password,
                                 level: result[0].level,
-                                meduim_id: result[0].medium_id
+                                meduim_id: result[0].medium_id,
+                                sex: result[0].sex
                             }
                         })
                     }
