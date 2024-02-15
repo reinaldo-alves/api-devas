@@ -10,6 +10,7 @@ import { adjuntoRoutes } from './routes/adjunto.routes';
 import { temploRoutes } from './routes/templo.routes';
 import { consagracaoRoutes } from './routes/consagracao.routes';
 import { backupRoutes } from './routes/backup.routes';
+import { eventoRoutes } from './routes/evento.routes';
 
 config();
 const app = express();
@@ -32,6 +33,7 @@ app.use(express.static(path.join(__dirname, "../public")));
 app.use('/user', userRoutes);
 app.use('/medium', mediumRoutes);
 app.use('/falange', falangeRoutes);
+app.use('/evento', eventoRoutes);
 app.use('/ministro', ministroRoutes);
 app.use('/guia', guiaRoutes);
 app.use('/cavaleiro', cavaleiroRoutes);
