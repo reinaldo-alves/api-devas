@@ -8,3 +8,6 @@ VERSÃO 1.0.0
 VERSÃO 1.1.0
 - Rotas para registros de consagrações (adicionar e remover médium, passar para próxima consagração, consultar todos e por consagração)
 - Rotas para criar e restaurar backups
+
+VERSÃO 1.2.2
+- Expiração do token em 10 horas
