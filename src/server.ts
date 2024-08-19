@@ -11,6 +11,7 @@ import { temploRoutes } from './routes/templo.routes';
 import { consagracaoRoutes } from './routes/consagracao.routes';
 import { backupRoutes } from './routes/backup.routes';
 import { eventoRoutes } from './routes/evento.routes';
+import { calendarRoutes } from './routes/calendar.routes';
 
 config();
 const app = express();
@@ -41,6 +42,7 @@ app.use('/adjunto', adjuntoRoutes);
 app.use('/templo', temploRoutes);
 app.use('/consagracao', consagracaoRoutes);
 app.use('/backup', backupRoutes);
+app.use('/calendar', calendarRoutes);
 
 const port = process.env.PORT || 4000;
 

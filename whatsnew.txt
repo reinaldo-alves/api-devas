@@ -11,3 +11,6 @@ VERSÃO 1.1.0
 
 VERSÃO 1.2.2
 - Expiração do token em 10 horas
+
+VERSÃO 1.3.0
+- Rotas para criar e editar informações do calendário de atividades doutrinárias (ano e dias de lua cheia)
