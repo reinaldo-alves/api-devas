@@ -12,6 +12,7 @@ import { consagracaoRoutes } from './routes/consagracao.routes';
 import { backupRoutes } from './routes/backup.routes';
 import { eventoRoutes } from './routes/evento.routes';
 import { calendarRoutes } from './routes/calendar.routes';
+import { desenvolvimentoRoutes } from './routes/desenvolvimento.routes';
 
 config();
 const app = express();
@@ -43,6 +44,7 @@ app.use('/templo', temploRoutes);
 app.use('/consagracao', consagracaoRoutes);
 app.use('/backup', backupRoutes);
 app.use('/calendar', calendarRoutes);
+app.use('/desenvolvimento', desenvolvimentoRoutes);
 
 const port = process.env.PORT || 4000;
 
