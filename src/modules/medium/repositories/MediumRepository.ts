@@ -100,7 +100,7 @@ class MediumRepository {
     }
 
     uploadImage(request: any, response: Response) {
-        const { medium_id } = request.query;
+        const { medium_id, med } = request.query;
         if(!request.file){
             return response.status(400).json({message: "Erro: Imagem inválida"})
         } 
