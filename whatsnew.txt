@@ -19,3 +19,6 @@ VERSÃO 1.3.0
 VERSÃO 1.4.0
 - Rotas para criar, editar, excluir, exibir e exibir todos implementada para a tabela de médiuns menores.
 - Alteração do nome do arquivo de imagem: substituição da hash aleatória pela inicial da mediunidade.
+
+VERSÃO 1.4.1
+- Alteração em rotas de backup e restauração para permitir interação com bancos de dados remotos e downloads de arquivos de backups

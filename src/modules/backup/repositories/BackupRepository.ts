@@ -1,5 +1,6 @@
 import { Request, Response } from 'express';
 import { exec, ExecException, spawn } from 'child_process';
+import fs from 'fs';
 
 const formatTime = () => {
     const now = new Date();
@@ -14,15 +15,31 @@ const formatTime = () => {
 
 class BackupRepository {
     create(request: Request, response: Response){
-        const folder = './public/backup';
         const filename = `backup_${formatTime()}.sql`;
-        const command = `mysqldump -u ${process.env.USER_DATABASE} -p${process.env.PASSWORD_DATABASE} ${process.env.DATABASE} --result-file=${folder}/${filename}`;
-        exec(command, (error: ExecException | null, stdout: string, stderr: string) => {
+        const filePath = `./public/backup/${filename}`;
+        const command = `mysqldump -h ${process.env.HOST_DATABASE} -u ${process.env.USER_DATABASE} -p${process.env.PASSWORD_DATABASE} ${process.env.DATABASE} --result-file=${filePath}`;
+        exec(command, (error: ExecException | null) => {
             if (error) {
                 return response.status(500).send({error: "Erro ao criar backup"})
             }
-            return response.status(200).send({message: "Backup criado com sucesso"})
-        })
+            fs.access(filePath, fs.constants.F_OK, (err) => {
+                if(err) {
+                    return response.status(500).send({error: "Erro ao gerar o backup"});
+                }
+                response.download(filePath, filename, (err) => {
+                    if(err) {
+                        return response.status(500).send({error: "Erro ao enviar backup para download"});
+                    }
+                    setTimeout(() => {
+                        fs.unlink(filePath, (unlinkErr) => {
+                            if(unlinkErr) {
+                                console.error("Erro ao remover o arquivo de backup: ", unlinkErr);
+                            }
+                        });
+                    }, 5000);
+                });
+            });
+        });
     }
 
     restore(request: Request, response: Response) {
@@ -32,7 +49,7 @@ class BackupRepository {
         }
         const filename = backupFile.originalname;
         if (backupFile.buffer) {
-            const command = `mysql -u ${process.env.USER_DATABASE} -p${process.env.PASSWORD_DATABASE} ${process.env.DATABASE}`;
+            const command = `mysql -h ${process.env.HOST_DATABASE} -u ${process.env.USER_DATABASE} -p${process.env.PASSWORD_DATABASE} ${process.env.DATABASE}`;
             const options = {shell: true};
             const mysqlProcess = spawn(command, options);
             let stdout = '';
