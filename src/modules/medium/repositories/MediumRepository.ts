@@ -101,13 +101,14 @@ class MediumRepository {
 
     uploadImage(request: any, response: Response) {
         const { medium_id, med } = request.query;
+        const dbString = process.env.ENVIRONMENT === 'local' ? request.file.filename : request.file.fileId;
         if(!request.file){
             return response.status(400).json({message: "Erro: Imagem inválida"})
         } 
         pool.getConnection((err: any, connection: any) => {
             connection.query(
                 'UPDATE medium SET foto = ? WHERE medium_id = ?',
-                [request.file.filename, medium_id],
+                [dbString, medium_id],
                 (error:any, result:any, fileds:any) => {
                     connection.release();
                     if (error) {

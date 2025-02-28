@@ -21,4 +21,5 @@ VERSÃO 1.4.0
 - Alteração do nome do arquivo de imagem: substituição da hash aleatória pela inicial da mediunidade.
 
 VERSÃO 1.4.1
-- Alteração em rotas de backup e restauração para permitir interação com bancos de dados remotos e downloads de arquivos de backups
+- Alteração em rotas de backup e restauração para permitir interação com bancos de dados remotos e downloads de arquivos de backups.
+- Criação de rotina para upload e carregamento de fotos do Google Drive na versão online.
