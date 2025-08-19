@@ -22,6 +22,10 @@ menorRoutes.delete('/delete', login, (request, response) => {
     menorRepository.delete(request, response)
 })
 
+menorRoutes.delete('/delete-comp', login, (request, response) => {
+    menorRepository.deleteComp(request, response)
+})
+
 menorRoutes.put('/update', login, (request, response) => {
     menorRepository.update(request, response)
 })

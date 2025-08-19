@@ -23,3 +23,6 @@ VERSÃO 1.4.0
 VERSÃO 1.4.1
 - Alteração em rotas de backup e restauração para permitir interação com bancos de dados remotos e downloads de arquivos de backups.
 - Criação de rotina para upload e carregamento de fotos do Google Drive na versão online.
+
+VERSÃO 1.4.2
+- Alteração das rotas de médium menor para atender à nova estrutura (Cadastro de médiuns geral e menor unificados, tabela menor no banco de dados apenas para complementos).

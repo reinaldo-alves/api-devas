@@ -3,29 +3,28 @@ import { pool } from '../../../mysql';
 
 class MenorRepository {
     create(request: Request, response: Response) {
-        const { nome, sex, condicao, templo, dtNasc, rg, cpf, mae, pai, natur, naturUF, profissao, estCivil, conjuge, cep, endereco, endNumero, endCompl, endBairro, endCidade, endUF, telefone1, telefone2, email, temploOrigem, falMiss, adjDevas, nomeEmissao, observ, responsavel, parentesco, contatoResp } = request.body;
+        const { medium, dtFalange, responsavel, parentesco, contatoResp } = request.body;
         pool.getConnection((err:any, connection:any) => {
             connection.query(
-                'INSERT INTO menor (nome, sex, condicao, templo, dtNasc, rg, cpf, mae, pai, natur, naturUF, profissao, estCivil, conjuge, cep, endereco, endNumero, endCompl, endBairro, endCidade, endUF, telefone1, telefone2, email, temploOrigem, falMiss, adjDevas, nomeEmissao, observ, responsavel, parentesco, contatoResp) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)',
-                [nome, sex, condicao, templo, dtNasc, rg, cpf, mae, pai, natur, naturUF, profissao, estCivil, conjuge, cep, endereco, endNumero, endCompl, endBairro, endCidade, endUF, telefone1, telefone2, email, temploOrigem, falMiss, adjDevas, nomeEmissao, observ, responsavel, parentesco, contatoResp],
+                'INSERT INTO menor (medium, dtFalange, responsavel, parentesco, contatoResp) VALUES (?,?,?,?,?)',
+                [medium, dtFalange, responsavel, parentesco, contatoResp],
                 (error:any, result:any, fileds:any) => {
                     connection.release();
                     if (error) {
-                        return response.status(400).json({error: error, message: "Erro ao buscar médium menor"})
+                        return response.status(400).json({error: error, message: "Erro ao criar complemento de médium menor"})
                     }
-                    const menorId = result.insertId;
-                    response.status(200).json({message: 'Médium menor adicionado com sucesso!', menor_id: menorId})
+                    response.status(200).json({message: 'Complemento de médium menor adicionado com sucesso!'})
                 }
             )
         })
     }
 
     get(request: Request, response: Response) {
-        const { menor_id } = request.query;
+        const { medium } = request.query;
         pool.getConnection((err:any, connection:any) => {
             connection.query(
-                'SELECT * FROM menor WHERE menor_id = ?',
-                [menor_id],
+                'SELECT menor.*, medium.* FROM menor INNER JOIN medium ON menor.medium = medium.medium_id WHERE menor.medium = ?',
+                [medium],
                 (error:any, result:any, fileds:any) => {
                     connection.release();
                     if (error) {
@@ -40,7 +39,7 @@ class MenorRepository {
     getAll(request: Request, response: Response) {
         pool.getConnection((err:any, connection:any) => {
             connection.query(
-                'SELECT * FROM menor',
+                'SELECT menor.*, medium.* FROM menor INNER JOIN medium ON menor.medium = medium.medium_id',
                 (error:any, result:any, fileds:any) => {
                     connection.release();
                     if (error) {
@@ -53,24 +52,51 @@ class MenorRepository {
     }
 
     delete(request: Request, response: Response) {
-        const { menor_id } = request.query;
+        const { medium } = request.query;
         pool.getConnection((err:any, connection:any) => {
             connection.query(
-                'DELETE FROM menor WHERE menor_id = ?',
-                [menor_id],
+                'DELETE FROM menor WHERE medium = ?',
+                [medium],
                 (error:any, result:any, fileds:any) => {
-                    connection.release();
                     if (error) {
-                        return response.status(400).json({error: "Erro ao excluir médium menor"})
+                        connection.release();
+                        return response.status(400).json({error: "Erro ao excluir complemento de médium menor"})
                     }
-                    response.status(200).json({message: 'Médium menor excluído com sucesso!'})
+                    connection.query(
+                        'DELETE FROM medium WHERE medium_id = ?',
+                        [medium],
+                        (error2:any, result2:any, fileds2:any) => {
+                            connection.release();
+                            if (error2) {
+                                return response.status(400).json({error: "Erro ao excluir médium menor"})
+                            }
+                            response.status(200).json({message: 'Complemento de médium menor excluído com sucesso!'})
+                        }
+                    )
+                }
+            )
+        })
+    }
+
+    deleteComp(request: Request, response: Response) {
+        const { medium } = request.query;
+        pool.getConnection((err:any, connection:any) => {
+            connection.query(
+                'DELETE FROM menor WHERE medium = ?',
+                [medium],
+                (error:any, result:any, fileds:any) => {
+                    if (error) {
+                        connection.release();
+                        return response.status(400).json({error: "Erro ao excluir complemento de médium menor"})
+                    }
+                    response.status(200).json({message: 'Complemento de médium menor excluído com sucesso!'})
                 }
             )
         })
     }
 
     update(request: Request, response: Response) {
-        const { menor_id, ...updates } = request.body;
+        const { medium, ...updates } = request.body;
         pool.getConnection((err:any, connection:any) => {
             const updateFields = [] as Array<string>;
             const params = [] as Array<string>;
@@ -83,17 +109,17 @@ class MenorRepository {
             if (updateFields.length === 0) {
                 return response.status(400).json({error: "Nenhum valor a ser atualizado"});
             }
-            params.push(menor_id);
-            const updateQuery = `UPDATE menor SET ${updateFields.join(', ')} WHERE menor_id = ?`;
+            params.push(medium);
+            const updateQuery = `UPDATE menor SET ${updateFields.join(', ')} WHERE medium = ?`;
             connection.query(
                 updateQuery,
                 params,
                 (error:any, result:any, fileds:any) => {
                     connection.release();
                     if (error) {
-                        return response.status(400).json({error: "Erro ao editar médium menor"})
+                        return response.status(400).json({error: "Erro ao editar complemento de médium menor"})
                     }
-                    response.status(200).json({message: 'Médium menor editado com sucesso!'})
+                    response.status(200).json({message: 'Complemento de médium menor editado com sucesso!'})
                 }
             )
         })
