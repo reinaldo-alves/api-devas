@@ -29,6 +29,10 @@ class UserRepository {
     login(request: Request, response: Response){
         const { name, password } = request.body;
         pool.getConnection((err:any, connection:any) => {
+            if (err || !connection) {
+                console.error('Erro ao obter conexão:', err);
+                return response.status(500).json({ message: "Erro de conexão com o banco de dados" });
+            }
             connection.query(
                 'SELECT * FROM user WHERE name = ?',
                 [name],
