@@ -11,15 +11,13 @@ const localConnectionObj = {
     "port":Number(process.env.PORT_DATABASE)
 }
 
-const productionConnectionObj = {
+const productionGcpConnectionObj = {
     "user":process.env.USER_DATABASE,
     "password":process.env.PASSWORD_DATABASE,
     "database":process.env.DATABASE,
     "socketPath": process.env.HOST_DATABASE
 }
 
-const pool = mysql.createPool(process.env.ENVIRONMENT === 'local' ? localConnectionObj : productionConnectionObj);
-
-console.log(pool);
+const pool = mysql.createPool(process.env.ENVIRONMENT === 'production-gcp' ? productionGcpConnectionObj : localConnectionObj);
 
 export { pool };
