@@ -1,19 +1,19 @@
 import { Request, Response } from 'express';
 import { pool } from '../../../mysql';
 
-class MenorRepository {
+class PajeRepository {
     create(request: Request, response: Response) {
         const { medium, dtFalange, responsavel, parentesco, contatoResp } = request.body;
         pool.getConnection((err:any, connection:any) => {
             connection.query(
-                'INSERT INTO menor (medium, dtFalange, responsavel, parentesco, contatoResp) VALUES (?,?,?,?,?)',
+                'INSERT INTO paje (medium, dtFalange, responsavel, parentesco, contatoResp) VALUES (?,?,?,?,?)',
                 [medium, dtFalange, responsavel, parentesco, contatoResp],
                 (error:any, result:any, fileds:any) => {
                     connection.release();
                     if (error) {
-                        return response.status(400).json({error: error, message: "Erro ao criar complemento de médium menor"})
+                        return response.status(400).json({error: error, message: "Erro ao criar complemento de pajé"})
                     }
-                    response.status(200).json({message: 'Complemento de médium menor adicionado com sucesso!'})
+                    response.status(200).json({message: 'Complemento de pajé adicionado com sucesso!'})
                 }
             )
         })
@@ -23,14 +23,14 @@ class MenorRepository {
         const { medium } = request.query;
         pool.getConnection((err:any, connection:any) => {
             connection.query(
-                'SELECT menor.*, medium.* FROM menor INNER JOIN medium ON menor.medium = medium.medium_id WHERE menor.medium = ?',
+                'SELECT paje.*, medium.* FROM paje INNER JOIN medium ON paje.medium = medium.medium_id WHERE paje.medium = ?',
                 [medium],
                 (error:any, result:any, fileds:any) => {
                     connection.release();
                     if (error) {
-                        return response.status(400).json({error: "Erro ao buscar médium menor"})
+                        return response.status(400).json({error: "Erro ao buscar pajé"})
                     }
-                    response.status(200).json({message: 'Médium menor encontrado com sucesso!', menor: result})
+                    response.status(200).json({message: 'Pajé encontrado com sucesso!', paje: result})
                 }
             )
         })
@@ -39,13 +39,13 @@ class MenorRepository {
     getAll(request: Request, response: Response) {
         pool.getConnection((err:any, connection:any) => {
             connection.query(
-                'SELECT menor.*, medium.* FROM menor INNER JOIN medium ON menor.medium = medium.medium_id',
+                'SELECT paje.*, medium.* FROM paje INNER JOIN medium ON paje.medium = medium.medium_id',
                 (error:any, result:any, fileds:any) => {
                     connection.release();
                     if (error) {
-                        return response.status(400).json({error: "Erro ao buscar lista de médiuns menores"})
+                        return response.status(400).json({error: "Erro ao buscar lista de pajés"})
                     }
-                    response.status(200).json({message: 'Lista de médiuns menores retornada com sucesso!', menor: result})
+                    response.status(200).json({message: 'Lista de pajés retornada com sucesso!', paje: result})
                 }
             )
         })
@@ -55,12 +55,12 @@ class MenorRepository {
         const { medium } = request.query;
         pool.getConnection((err:any, connection:any) => {
             connection.query(
-                'DELETE FROM menor WHERE medium = ?',
+                'DELETE FROM paje WHERE medium = ?',
                 [medium],
                 (error:any, result:any, fileds:any) => {
                     if (error) {
                         connection.release();
-                        return response.status(400).json({error: "Erro ao excluir complemento de médium menor"})
+                        return response.status(400).json({error: "Erro ao excluir complemento de pajé"})
                     }
                     connection.query(
                         'DELETE FROM medium WHERE medium_id = ?',
@@ -68,9 +68,9 @@ class MenorRepository {
                         (error2:any, result2:any, fileds2:any) => {
                             connection.release();
                             if (error2) {
-                                return response.status(400).json({error: "Erro ao excluir médium menor"})
+                                return response.status(400).json({error: "Erro ao excluir pajé"})
                             }
-                            response.status(200).json({message: 'Complemento de médium menor excluído com sucesso!'})
+                            response.status(200).json({message: 'Complemento de pajé excluído com sucesso!'})
                         }
                     )
                 }
@@ -82,14 +82,14 @@ class MenorRepository {
         const { medium } = request.query;
         pool.getConnection((err:any, connection:any) => {
             connection.query(
-                'DELETE FROM menor WHERE medium = ?',
+                'DELETE FROM paje WHERE medium = ?',
                 [medium],
                 (error:any, result:any, fileds:any) => {
                     if (error) {
                         connection.release();
-                        return response.status(400).json({error: "Erro ao excluir complemento de médium menor"})
+                        return response.status(400).json({error: "Erro ao excluir complemento de pajé"})
                     }
-                    response.status(200).json({message: 'Complemento de médium menor excluído com sucesso!'})
+                    response.status(200).json({message: 'Complemento de pajé excluído com sucesso!'})
                 }
             )
         })
@@ -110,16 +110,16 @@ class MenorRepository {
                 return response.status(400).json({error: "Nenhum valor a ser atualizado"});
             }
             params.push(medium);
-            const updateQuery = `UPDATE menor SET ${updateFields.join(', ')} WHERE medium = ?`;
+            const updateQuery = `UPDATE paje SET ${updateFields.join(', ')} WHERE medium = ?`;
             connection.query(
                 updateQuery,
                 params,
                 (error:any, result:any, fileds:any) => {
                     connection.release();
                     if (error) {
-                        return response.status(400).json({error: "Erro ao editar complemento de médium menor"})
+                        return response.status(400).json({error: "Erro ao editar complemento de pajé"})
                     }
-                    response.status(200).json({message: 'Complemento de médium menor editado com sucesso!'})
+                    response.status(200).json({message: 'Complemento de pajé editado com sucesso!'})
                 }
             )
         })
@@ -127,4 +127,4 @@ class MenorRepository {
 
 }
 
-export { MenorRepository }
+export { PajeRepository }

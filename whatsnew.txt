@@ -26,3 +26,8 @@ VERSÃO 1.4.1
 
 VERSÃO 1.4.2
 - Alteração das rotas de médium menor para atender à nova estrutura (Cadastro de médiuns geral e menor unificados, tabela menor no banco de dados apenas para complementos).
+
+VERSÃO 1.5.0
+- Referências a médiuns menores renomeadas para pajés.
+- Exclusão dos pajés na rota exibir todos os médiuns.
+- Rotas para criar, editar, excluir, exibir e exibir todos implementada para as tabelas de instrutores, cursos e alunos.

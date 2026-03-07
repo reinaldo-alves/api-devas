@@ -40,7 +40,7 @@ class MediumRepository {
     getAll(request: Request, response: Response) {
         pool.getConnection((err:any, connection:any) => {
             connection.query(
-                'SELECT * FROM medium',
+                "SELECT * FROM medium WHERE med != 'Pajé'",
                 (error:any, result:any, fileds:any) => {
                     connection.release();
                     if (error) {

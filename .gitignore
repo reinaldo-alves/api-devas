@@ -32,3 +32,4 @@ yarn-error.log*
 
 # databases
 real_data.sql
+.vercel

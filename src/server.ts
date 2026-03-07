@@ -13,7 +13,10 @@ import { backupRoutes } from './routes/backup.routes';
 import { eventoRoutes } from './routes/evento.routes';
 import { calendarRoutes } from './routes/calendar.routes';
 import { desenvolvimentoRoutes } from './routes/desenvolvimento.routes';
-import { menorRoutes } from './routes/menor.routes';
+import { pajeRoutes } from './routes/paje.routes';
+import { instrutorRoutes } from './routes/instrutor.routes';
+import { cursoRoutes } from './routes/curso.routes';
+import { alunoRoutes } from './routes/aluno.routes';
 
 config();
 const app = express();
@@ -46,7 +49,10 @@ app.use('/consagracao', consagracaoRoutes);
 app.use('/backup', backupRoutes);
 app.use('/calendar', calendarRoutes);
 app.use('/desenvolvimento', desenvolvimentoRoutes);
-app.use('/menor', menorRoutes);
+app.use('/paje', pajeRoutes);
+app.use('/instrutor', instrutorRoutes);
+app.use('/curso', cursoRoutes);
+app.use('/aluno', alunoRoutes);
 
 const port = process.env.PORT || 4000;
 
